@@ -1,31 +1,95 @@
 import { DefaultInput } from "../DefaultInput";
 import { Cycles } from "../Cycles";
 import { DefaultButton } from "../DefaultButton";
-import { PlayCircleIcon } from "lucide-react";
+import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
+import { useRef } from "react";
+import type { TaskModel } from "../../models/TaskModel";
+import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
+import { getNextCycle } from "../../utils/getNextCycle";
+import { getNextCycleTyple } from "../../utils/getNextCycleType";
+import { TaskActionsTypes } from "../../contexts/TaskContext/taskActions";
 
 export function MainForm() {
+  const { state, dispatch } = useTaskContext();
+  const taskNameInput = useRef<HTMLInputElement>(null);
+
+  //cycles
+  const nextCycle = getNextCycle(state.currentCycle);
+  const nextCycleType = getNextCycleTyple(nextCycle);
+
+  function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (taskNameInput.current === null) return;
+
+    const taskName = taskNameInput.current.value.trim();
+
+    if (!taskName) {
+      alert("Digite o nome da tarefa");
+      return;
+    }
+
+    const newTask: TaskModel = {
+      id: Date.now().toString(),
+      name: taskName,
+      startDate: Date.now(),
+      completeDate: null,
+      interruptDate: null,
+      durationInMinutes: state.config[nextCycleType],
+      type: nextCycleType,
+    };
+
+    dispatch({ type: TaskActionsTypes.START_TASK, payload: newTask });
+  }
+
+  function handleInterruptTask(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) {
+    e.preventDefault(); //fixes the strange bug
+    dispatch({ type: TaskActionsTypes.INTERRUPT_TASK });
+  }
+
   return (
     <>
-      <form className='form'>
+      <form onSubmit={handleCreateNewTask} className='form' action=''>
         <div className='formRow'>
           <DefaultInput
             labelText='Task:'
             id='input'
             type='text'
             placeholder='Digite algo'
+            ref={taskNameInput}
+            disabled={!!state.activeTask}
           ></DefaultInput>
         </div>
 
         <div className='formRow'>
-          <p>Lorem ipsum dolor sit amet.</p>
+          <p>Próximo intervalo é de 25 min</p>
         </div>
 
+        {state.currentCycle > 0 && (
+          <div className='formRow'>
+            <Cycles />
+          </div>
+        )}
         <div className='formRow'>
-          <Cycles />
-        </div>
-
-        <div className='formRow'>
-          <DefaultButton icon={<PlayCircleIcon />} />
+          {!state.activeTask ? (
+            <DefaultButton
+              aria-label='Iniciar nova Tarefa'
+              title='Iniciar nova Tarefa'
+              type='submit'
+              icon={<PlayCircleIcon />}
+            />
+          ) : (
+            <DefaultButton
+              aria-label='Interromper tarefa atual'
+              color='red'
+              title='Interromper tarefa atual'
+              type='button'
+              onClick={handleInterruptTask}
+              icon={<StopCircleIcon />}
+            />
+          )}
         </div>
       </form>
     </>
