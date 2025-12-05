@@ -9,10 +9,12 @@ import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycleTyple } from "../../utils/getNextCycleType";
 import { TaskActionsTypes } from "../../contexts/TaskContext/taskActions";
 import { Tips } from "../Tips";
+import { toastifyAdapter } from "../../adapters/toastifyAdapter";
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
+  const lastTaskName = state.tasks[state.tasks.length - 1]?.name || "";
 
   //cycles
   const nextCycle = getNextCycle(state.currentCycle);
@@ -20,13 +22,15 @@ export function MainForm() {
 
   function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    toastifyAdapter.dismiss();
 
     if (taskNameInput.current === null) return;
 
     const taskName = taskNameInput.current.value.trim();
 
     if (!taskName) {
-      alert("Digite o nome da tarefa");
+      toastifyAdapter.warn("Digite o nome da tarefa");
+
       return;
     }
 
@@ -41,12 +45,16 @@ export function MainForm() {
     };
 
     dispatch({ type: TaskActionsTypes.START_TASK, payload: newTask });
+
+    toastifyAdapter.success("Tarefa iniciada");
   }
 
   function handleInterruptTask(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     e.preventDefault(); //fixes the strange bug
+    toastifyAdapter.dismiss();
+    toastifyAdapter.error("Tarefa interrompida!");
     dispatch({ type: TaskActionsTypes.INTERRUPT_TASK });
   }
 
@@ -61,6 +69,7 @@ export function MainForm() {
             placeholder='Digite algo'
             ref={taskNameInput}
             disabled={!!state.activeTask}
+            defaultValue={lastTaskName}
           ></DefaultInput>
         </div>
 
