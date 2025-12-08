@@ -4,12 +4,17 @@ import { DefaultButton } from "../../components/DefaultButton";
 import { DefaultInput } from "../../components/DefaultInput";
 import { Heading } from "../../components/Heading";
 import { MainTemplate } from "../../templates/MainTemplate";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 import { toastifyAdapter } from "../../adapters/toastifyAdapter";
+import { TaskActionsTypes } from "../../contexts/TaskContext/taskActions";
 
 export function Settings() {
-  const { state } = useTaskContext();
+  useEffect(() => {
+    document.title = "Configurações - Chronos Pomodoro";
+  });
+
+  const { state, dispatch } = useTaskContext();
   const workTimeInput = useRef<HTMLInputElement>(null);
   const shortBreakInput = useRef<HTMLInputElement>(null);
   const longBreakInput = useRef<HTMLInputElement>(null);
@@ -45,7 +50,12 @@ export function Settings() {
 
       return;
     }
-    console.log("SALVAR");
+
+    dispatch({
+      type: TaskActionsTypes.CHANGE_SETTINGS,
+      payload: { workTime, shortBreakTime, longBreakTime },
+    });
+    toastifyAdapter.success("Configurações salvas com sucesso!");
   }
 
   return (
