@@ -1,73 +1,83 @@
-# React + TypeScript + Vite
+# Chronos Pomodoro ⏱️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Chronos Pomodoro** é uma aplicação web baseada na *Pomodoro Technique*, uma técnica de gestão de tempo que te ajuda a manter foco e produtividade dividindo o trabalho em ciclos de atividades e pausas. :contentReference[oaicite:1]{index=1}
 
-Currently, two official plugins are available:
+Este projeto foi desenvolvido com **React + TypeScript + Vite** durante meus estudos, com foco em organização de componentes, controle de estados e lógica de timer.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Demo
+Você pode acessar a versão online aqui:  
+🔗 https://chronos-pomodoro-one-puce.vercel.app
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## 🧠 O que é a Técnica Pomodoro?
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+A técnica Pomodoro consiste em dividir períodos de trabalho em lapsos (geralmente 25 minutos), seguidos por curtas pausas. Isso melhora foco, diminui procrastinação e aumenta produtividade. :contentReference[oaicite:2]{index=2}
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠️ Tecnologias utilizadas
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **React**  
+- **TypeScript**  
+- **Vite**  
+- **CSS moderno**  
+- Git e GitHub para versionamento
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 Funcionalidades
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+✔️ Timer baseado na técnica Pomodoro  
+✔️ Controle de estados com hooks  
+✔️ Layout responsivo para diferentes tamanhos de tela  
+✔️ Armazenamento local para salvar preferências
+
+---
+
+## 📁 Estrutura de pastas
+├── public
+├── src
+│ ├── components
+│ ├── styles
+│ └── App.tsx
+├── index.html
+├── package.json
+└── README.md
+
+## 🚀 Como rodar este projeto
+
+### Pré-requisitos
+Tenha o **Node.js** instalado (preferencialmente versão 16+)
+
+### Passos
+
+1. Clone o repositório  
+
+git clone https://github.com/EnzoMendes34/chronos-pomodoro.git
+
+2. Entre na pasta do projeto
+
+cd chronos-pomodoro
+
+3. Instale as dependências
+
+npm install
+  
+4. Rode o projeto em modo de desenvolvimento
+
+npm run dev
+
+5. Abra o navegador com o link gerado.
+
+
+🧪 Testes
+
+Este projeto ainda não possui testes automatizados, mas implementá-los é um dos próximos passos!
+      
+📌 Contribuições
+
+Este é um projeto pessoal.
+Se você quiser sugerir melhorias ou funcionalidades, pode abrir uma issue ou me enviar mensagem!
